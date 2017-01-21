@@ -1,0 +1,59 @@
+.icon {
+  &.icon-reg {
+    background-image: url(../images/icon-reg.png);
+    width: 4.2rem;
+    height: 4.9rem;
+    margin: 0 auto;
+    margin-top: 0.5rem;
+    background-size: 100%;
+    background-position: center center;
+  }
+}
+
+.register-page {
+  padding-bottom: 8rem;
+
+  .login-actions {
+    width: 90%;
+
+    .btn {
+      width: 48%;
+    }
+  }
+}
+
+.register-form {
+  .input-field {
+  
+    &:nth-child(3) input {
+      width: 100%;
+      float: none;
+    }
+
+    &:before {
+      display: none;
+    }
+
+    label {
+      padding: 0.8rem 0rem;
+      height: 1.3rem;
+      display: block;
+      position: absolute;
+      z-index: 1;
+      background-color: #3d4049;
+      width: 5rem;
+      text-align: right;
+      color: #efeef1;
+      padding-right: 5px;
+    }
+
+    input {
+      padding-left: 6.5em;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.register-page .register-form .form {
+  width: 90%;
+}

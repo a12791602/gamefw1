@@ -1,0 +1,86 @@
+import * as SlotConstant from '../constants/SlotConstant';
+import {DEVICE_MOBILE} from '../constants/AppConstant';
+import {options, slotGamesUrl, checkFlatStatusUrl, slotLikeUrl} from '../utils/url';
+
+export function loadSlotGameItems(slot, cat, name = "") {
+  return dispatch => {
+    fetch(slotGamesUrl(slot, cat, name, DEVICE_MOBILE), options())
+    .then(res => res.json())
+    .then(json => {
+      if (json.rs) {
+        dispatch({
+          type: SlotConstant.SLOT_REQUEST,
+          slots: {
+            [cat]: json.datas
+          }
+        });
+      }
+      else {
+        dispatch({
+          type: SlotConstant.SLOT_REQUEST_ERROR,
+          msg: json.msg
+        });
+      }
+    });
+  };
+}
+
+export function checkFlatStatus(flat) {
+  return dispatch => {
+    let form = new FormData();
+    form.append('code', flat);
+    fetch(checkFlatStatusUrl(), options({
+      method: 'post',
+      body: form
+    }))
+    .then(res => res.json())
+    .then(json => {
+      dispatch({
+        type: SlotConstant.SLOT_CHECK_STATUS,
+        res: json,
+        flat
+      });
+    });
+  }
+}
+
+export function likeSlot(flat, slot, cat, name = '') {
+  let gameCode = null;
+  switch (flat) {
+    case 'ag':
+      gameCode = slot.eleGameId;
+      break;
+    case 'mg':
+      gameCode = slot.remark;
+      break;   
+    case 'pt':
+      gameCode = slot.eleGameCode;
+      break;
+    case 'os':
+      gameCode = slot.eleGameId;
+      break;
+    case 'ttg':
+      gameCode = slot.eleGameId;
+      break;
+    case 'nt':
+      gameCode = slot.eleGameCode;
+      break;
+  }
+
+  return dispatch => {
+    let formdata = new FormData();
+    formdata.append('gameCode', gameCode);
+    formdata.append('flat', flat == 'nt' ? 'newnt': flat);
+    formdata.append('device', DEVICE_MOBILE);
+    fetch(slotLikeUrl(), options({
+      method: 'post',
+      body: formdata
+    }))
+    .then(res => res.json())
+    .then(json => {
+      if (json.rs) {
+        dispatch(loadSlotGameItems(flat, cat, name));
+      }
+    });
+  };
+}

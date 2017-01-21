@@ -1,0 +1,50 @@
+.slot-type-links.sport-type-links {
+  padding-bottom: 22rem;
+
+  li {
+
+    padding: 0rem 0.5rem 1rem 0.5rem;
+  
+    &.slot-item-sbt .slot-link-inner a:after {
+
+    }
+
+    &.slot-item-bbin .slot-link-inner a:after {    
+      background-position: center -5.5rem;
+      height: 1.7rem;
+      margin-top: -.85rem;
+    }
+
+    &.slot-item-sb .slot-link-inner a:after {
+      background-position: center -3.3rem;
+      height: 2.8rem;
+      margin-top: -1.3rem;
+    }
+
+    &.slot-item-huangguan .slot-link-inner a:after {
+      background-position: center -6rem;
+      height: 2.7rem;
+      margin-top: -1.2rem;
+    }
+
+    .slot-link-inner {
+      padding: 1rem 1rem;
+
+      & a:after {
+        background-image: url(../images/sport-icons.png);
+        height: 2.3rem;
+        margin-top: -1.2rem;
+        width: 7rem;
+        background-size: 8rem;
+        left: -2.2rem;
+      }
+
+      a {
+        position: relative;
+        margin-top: 0px;
+        width: auto;
+        text-align: right;
+      }
+    }
+  }
+}

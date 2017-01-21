@@ -1,0 +1,19 @@
+.slot-type-links.bbin-type-links  {
+  
+  li {
+    .slot-link-inner {
+      padding: 1.5rem 1rem;
+      a {
+        &:after {
+          background-image: url(../images/bbin_spr_x2.png);
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: -10rem 0;
+          width: 5rem;
+          height: 5rem;
+          margin-top: -2.5rem;
+        }
+      }
+    }
+  }
+}

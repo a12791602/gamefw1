@@ -1,0 +1,152 @@
+.page {
+  width: 100%;
+  background-color: #18191b;
+  box-sizing: border-box;
+}
+
+.login-page {
+  
+  padding-bottom: 20rem;
+
+  .login-form {
+    padding-top: 10%;
+  }
+}
+
+.login-form {
+  .inner {
+    width: 10rem;
+    height: 10rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    border: 3px solid #616370;
+    text-align: center;
+    color: #fff;
+    font-size: 1.3rem;
+
+
+    .icon-people {
+      width: 4.2rem;
+      height: 4.9rem;
+      margin: 0 auto;
+      background-image: url(../images/icon-people.png);
+      margin-top: 0.5rem;
+    }
+
+    .li-desc {
+      margin-top: 0.4rem;
+      text-transform: uppercase;
+      line-height: 120%;
+      color: #616370;
+      text-align: center;
+    }
+  }
+
+  .form {
+    width: 80%;
+    margin: 2rem auto 0 auto;
+  }
+
+  .btn-red {
+    border: none;
+    color: #fff;
+    padding: 0.8rem 0px;
+    font-size: 1.1rem;
+  }
+}
+
+.input-field {
+  margin-bottom: 0.7rem;
+  position: relative;
+
+  &:before {
+    content: " ";
+    display: block;
+    width: 3rem;
+    background: #616370;
+    margin: 0.8rem 0rem;
+    height: 1.3rem;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    border-right: 2px solid #797b87;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &:nth-child(1):before {
+    background-image: url(../images/icon-username.png);
+  }
+
+  &:nth-child(2):before {
+    background-image: url(../images/icon-password.png);
+  }
+
+  &:nth-child(3):before {
+    background-image: url(../images/icon-code.png);
+  }
+
+  &:nth-child(3) input {
+    width: 70%;
+    float: left;
+  }
+
+  input {
+    width: 100%;
+    background: #616370;
+    border: none;
+    position: relative;
+    color: #fff;
+    font-size: 1.2rem;
+    padding-left: 4rem;
+    box-sizing: border-box;
+    height: 3rem;
+  }
+
+  img {
+    width: 27%;
+    float: left;
+    margin-left: 3%;
+    margin-top: 0.5rem;
+  }
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-red {
+  background-color: #bb1d1e;
+  color: #fff;
+}
+
+.btn-gray {
+  background-color: gray;
+  color: #fff;
+}
+
+.login-actions {
+  width: 80%;
+  margin: .7rem auto 0px auto;
+
+  .btn {
+    width: 47%;
+    padding: 0.8rem 0px;
+    text-align: center;
+    color: #fff;
+    display: block;
+    background: #3c3c48;
+  }
+
+  .btn-reg {
+    float: left;
+    margin-right: 1.5%;
+  }
+  .btn-home {
+    float: right;
+    margin-left: 1.5%;
+  }
+}
+

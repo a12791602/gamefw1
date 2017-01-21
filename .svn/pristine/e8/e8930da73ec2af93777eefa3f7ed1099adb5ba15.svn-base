@@ -1,0 +1,93 @@
+
+export function absUrl(uri) {
+  if (uri[0] != '/') uri = '/' + uri;
+  if (typeof rootPath == 'undefined') rootPath = '';
+  return rootPath + uri;
+};
+
+export function resourceUrl(uri) {
+  if (uri[0] != '/') uri = '/' + uri;
+  if (typeof resourceRoot == 'undefined') resourceRoot = '';
+  return resourceRoot + uri;
+}
+
+export function logoutUrl() {
+  return absUrl("/loginOut");
+};
+
+export function loginUrl() {
+  return absUrl("/login");
+};
+
+export function userInfoUrl() {
+  return absUrl("/memberinterface/getUserInfo");
+};
+
+export function messageUrl() {
+  return absUrl("/m/getGongGaoList");
+};
+
+export function registerUrl() {
+  return absUrl('/m/register/doRegister');
+};
+
+export function validateUsernameUrl() {
+  return absUrl('/valid/registerUserName');
+}
+
+export function options(options) {
+  return Object.assign({}, {
+    credentials: 'same-origin'
+  }, options);
+}
+
+export function slotGamesUrl(slot, cat, name, device=1) {
+  let uri = `/mobileelectronic?code=${slot}&gameType=${cat}&device=${device}`;
+  if (name != '') {
+    uri += `&gameName=${name}`;
+  }
+  return absUrl(uri);
+}
+
+export function checkFlatStatusUrl() {
+  return absUrl(`/valid/checkflatsatus`);
+}
+
+export function redirect(url, autoAppend=true) {
+  if (autoAppend) {
+    window.location.href = absUrl(url);
+  }
+  else {
+    window.location.href = url;
+  }
+}
+
+export function slotImgUrl(slot, img) {
+  if (slot == 'mg') {
+    return `${root}/web/ybb/common/images/${slot}/${img}_h5.png`;
+  }
+  else if (slot == 'nt' || slot == 'newnt') {
+    return `${root}/web/ybb/common/images/newnt/${img}`;
+  }
+  return `${root}/m/img/${slot}/${img}`;
+}
+
+export function slotRedirect(slot, params) {
+  let query = [];
+  for (let name in params) {
+    query.push(`${name}=${params[name]}`);
+  }
+  // nt -> newnt 转换
+  if (slot == 'nt') slot = 'newnt';
+  query.push(`gameType=${slot}`);
+  query = query.join('&');
+  return absUrl(`/m/game/forwardGame?${query}`);
+}
+
+export function slotLikeUrl(slot, gamecode) {
+  return absUrl(`/eleFavourite`);
+}
+
+export function promoItemsUrl() {
+  return absUrl('/m/getPromosList');
+}

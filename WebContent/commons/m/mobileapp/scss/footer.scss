@@ -1,0 +1,47 @@
+.footer {
+  height: 6rem;
+  background-color: #151515;
+  margin-top: 2rem;
+  color: #fff;
+  width: 100%;
+  bottom: 0px;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  padding-bottom: 2rem;
+
+  .inner {
+    padding: 1rem 0px;
+    text-align: center;
+
+    .flinks {
+
+      a {
+        color: #9c9898;
+        display: inline-block;
+        padding-right: 1rem;
+
+        &:last-child {
+          padding-left: 0px;
+        }
+      }
+    }
+
+    .flogo {
+      img {
+        width: 80%;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+    p {
+      color: #9c9898;
+    }
+  }
+
+
+}
+
+

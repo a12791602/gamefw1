@@ -1,0 +1,39 @@
+.live-type-links.slot-type-links {
+  li {
+    .slot-link-inner {
+      & a:after {
+        background-image: url(../images/live-icons.png);
+        height: 2.1rem;
+        margin-top: -1.05rem;
+      }
+    }
+
+    &.slot-item-ag .slot-link-inner a:after {
+      height: 2.1rem;
+      margin-top: -1.05rem;
+    }
+
+    &.slot-item-ds .slot-link-inner a:after {
+      background-position: center -2.1rem;
+      margin-left: -.5rem;
+    }
+
+    &.slot-item-sa .slot-link-inner a:after {
+      background-position: center -4.4rem;
+    }
+
+    &.slot-item-hg .slot-link-inner a:after {
+      height: 1.5rem;
+      margin-top: -.5rem;
+      background-position: center -7.4rem;
+      margin-left: -.5rem;
+    }
+
+    &.slot-item-og .slot-link-inner a:after {
+      height: 2.5rem;
+      margin-top: -1.25rem;
+      background-position: center -9rem;
+    }
+
+  }
+}

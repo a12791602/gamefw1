@@ -1,0 +1,39 @@
+import React, {Component, PropTypes} from 'react';
+import {Router, Route, hashHistory, IndexRoute, IndexRedirect} from 'react-router';
+
+import AppContainer from './AppContainer';
+import HomeContainer from './HomeContainer';
+import SportContainer from './SportContainer';
+import LoginContainer from './LoginContainer';
+import RegisterContainer from './RegisterContainer';
+import SlotContainer from './SlotContainer';
+import SlotLayoutContainer from './SlotLayoutContainer';
+import SlotItemsContainer from './SlotItemsContainer';
+import LiveContainer from './LiveContainer';
+import PromoContainer from './PromoContainer';
+import BBINContainer from './BBINContainer';
+
+class RouterContainer extends Component {
+  render() {
+    return (
+      <Router history={hashHistory}>
+        <Route path="/" component={AppContainer}>
+          <IndexRoute component={HomeContainer} />
+          <Route path="/sport" component={SportContainer} />
+          <Route path="/login" component={LoginContainer} />
+          <Route path="/register" component={RegisterContainer} />
+          <Route path="/slot" component={SlotContainer} />
+          <Route path="/slot/:name" component={SlotLayoutContainer}>
+            <IndexRedirect to="/slot/:name/all" />
+            <Route path="/slot/:name/:type" component={SlotItemsContainer} />
+          </Route>
+          <Route path="/live" component={LiveContainer} />
+          <Route path="/promo" component={PromoContainer}/>
+          <Route path="/bbin" component={BBINContainer} />
+        </Route>
+      </Router>
+    );
+  }
+};
+
+export default RouterContainer

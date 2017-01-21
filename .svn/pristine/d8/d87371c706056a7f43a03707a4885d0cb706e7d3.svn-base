@@ -1,0 +1,1014 @@
+package com.mh.service.impl;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mh.commons.comparator.ComparatorAgHotDesc;
+import com.mh.commons.comparator.ComparatorAgNewDesc;
+import com.mh.commons.comparator.ComparatorBbinHotDesc;
+import com.mh.commons.comparator.ComparatorBbinNewDesc;
+import com.mh.commons.comparator.ComparatorGdHotDesc;
+import com.mh.commons.comparator.ComparatorGdNewDesc;
+import com.mh.commons.comparator.ComparatorMgHotDesc;
+import com.mh.commons.comparator.ComparatorMgNewDesc;
+import com.mh.commons.comparator.ComparatorNewNtHotDesc;
+import com.mh.commons.comparator.ComparatorNewNtNewDesc;
+import com.mh.commons.comparator.ComparatorOsHotDesc;
+import com.mh.commons.comparator.ComparatorOsNewDesc;
+import com.mh.commons.comparator.ComparatorPtHotDesc;
+import com.mh.commons.comparator.ComparatorPtNewDesc;
+import com.mh.commons.comparator.ComparatorTtgHotDesc;
+import com.mh.commons.comparator.ComparatorTtgNewDesc;
+import com.mh.commons.conf.ResourceConstant;
+import com.mh.dao.WebUserEleFavouriteDao;
+import com.mh.entity.TWebUserEleFavourite;
+import com.mh.entity.WebAgElectronic;
+import com.mh.entity.WebBbinElectronic;
+import com.mh.entity.WebGdElectronic;
+import com.mh.entity.WebMgElectronic;
+import com.mh.entity.WebNewNtElectronic;
+import com.mh.entity.WebOsElectronic;
+import com.mh.entity.WebPtElectronic;
+import com.mh.entity.WebTtgElectronic;
+import com.mh.service.WebUserEleFavouriteService;
+@Service
+public class WebUserEleFavouriteServiceImpl implements WebUserEleFavouriteService {
+
+	@Autowired
+	private WebUserEleFavouriteDao eleFavouriteDao;
+	
+	public void insertEleFavourite(TWebUserEleFavourite eleFavourite) {
+		eleFavouriteDao.save(eleFavourite);
+	}
+
+	public int getFavouriteCount(TWebUserEleFavourite eleFavourite) {
+		return eleFavouriteDao.getFavouriteCount(eleFavourite);
+	}
+	
+	public int cancelEleFavourite(TWebUserEleFavourite eleFavourite) {
+		return eleFavouriteDao.cancelEleFavourite(eleFavourite);
+	}
+	
+	public List<TWebUserEleFavourite> getFavouriteByUser(TWebUserEleFavourite eleFavourite) {
+		return eleFavouriteDao.getFavouriteByUser(eleFavourite);
+	}
+
+	public String getMgEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		
+		List<WebMgElectronic> allGameList = ResourceConstant.MG_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(favourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_LIST;
+		}
+		for (WebMgElectronic mg : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), mg.getRemark())){
+				gameName = mg.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public String getOsEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebOsElectronic> allGameList = ResourceConstant.OS_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(favourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_LIST;
+		}
+		for (WebOsElectronic os : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), os.getEleGameId())){
+				gameName = os.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public String getPtEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebPtElectronic> allGameList = ResourceConstant.PT_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(favourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_LIST;
+		}
+		for (WebPtElectronic pt : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), pt.getEleGameCode())){
+				gameName = pt.getEleGameCnname();
+				break;
+			}
+		}
+		
+		if(!StringUtils.equals(favourite.getClient(), "1")){
+			if(StringUtils.isEmpty(gameName)){
+				List<WebPtElectronic> supportGameList = ResourceConstant.PT_ELECTRONIC_LIST.get("support");
+				for (WebPtElectronic pt : supportGameList) {
+					if(StringUtils.equals(favourite.getGameCode(), pt.getProgressiveGameCode())){
+						gameName = pt.getEleGameCnname();
+						break;
+					}
+				}
+			}
+		}
+		return gameName;
+	}
+
+	public String getNtEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebNewNtElectronic> allGameList = ResourceConstant.NEWNT_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(favourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_LIST;
+		}
+		for (WebNewNtElectronic nt : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), nt.getEleGameCode())){
+				gameName = nt.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public String getGdEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebGdElectronic> allGameList = ResourceConstant.GD_ELECTRONIC_LIST.get("all");
+		for (WebGdElectronic gd : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), gd.getEleGameId())){
+				gameName = gd.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public String getTtgEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebTtgElectronic> allGameList = ResourceConstant.TTG_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(favourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_LIST;
+		}
+		for (WebTtgElectronic ttg : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), ttg.getEleGameId())){
+				gameName = ttg.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public String getAgEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebAgElectronic> allGameList = ResourceConstant.AG_ELECTRONIC_LIST.get("all");
+		for (WebAgElectronic ag : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), ag.getEleGameId())){
+				gameName = ag.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+	
+	public String getBbinEleGameName(TWebUserEleFavourite favourite) {
+		String gameName = "";
+		List<WebBbinElectronic> allGameList = ResourceConstant.BBIN_ELECTRONIC_LIST.get("all");
+		for (WebBbinElectronic bbin : allGameList) {
+			if(StringUtils.equals(favourite.getGameCode(), bbin.getEleGameId())){
+				gameName = bbin.getEleGameCnname();
+				break;
+			}
+		}
+		return gameName;
+	}
+
+	public List<WebMgElectronic> getMgFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebMgElectronic> showGameList = new ArrayList<WebMgElectronic>();
+		List<WebMgElectronic> allGameList = ResourceConstant.MG_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(eleFavourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_LIST;
+		}
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebMgElectronic mg : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), mg.getRemark())){
+					showGameList.add(mg);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	public List<WebAgElectronic> getAgFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebAgElectronic> showGameList = new ArrayList<WebAgElectronic>();
+		List<WebAgElectronic> allGameList = ResourceConstant.AG_ELECTRONIC_LIST.get("all");
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebAgElectronic ag : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), ag.getEleGameId())){
+					showGameList.add(ag);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	public List<WebTtgElectronic> getTtgFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebTtgElectronic> showGameList = new ArrayList<WebTtgElectronic>();
+		List<WebTtgElectronic> allGameList = ResourceConstant.TTG_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(eleFavourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_LIST;
+		}
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebTtgElectronic ttg : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), ttg.getEleGameId())){
+					showGameList.add(ttg);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebGdElectronic> getGdFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebGdElectronic> showGameList = new ArrayList<WebGdElectronic>();
+		List<WebGdElectronic> allGameList = ResourceConstant.GD_ELECTRONIC_LIST.get("all");
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebGdElectronic gd : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), gd.getEleGameId())){
+					showGameList.add(gd);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebOsElectronic> getOsFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebOsElectronic> showGameList = new ArrayList<WebOsElectronic>();
+		List<WebOsElectronic> allGameList = ResourceConstant.OS_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(eleFavourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_LIST;
+		}
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebOsElectronic os : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), os.getEleGameId())){
+					showGameList.add(os);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebNewNtElectronic> getNtFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebNewNtElectronic> showGameList = new ArrayList<WebNewNtElectronic>();
+		List<WebNewNtElectronic> allGameList = ResourceConstant.NEWNT_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(eleFavourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_LIST;
+		}
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebNewNtElectronic nt : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), nt.getEleGameCode())){
+					showGameList.add(nt);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebPtElectronic> getPtFavourteEleList(List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebPtElectronic> showGameList = new ArrayList<WebPtElectronic>();
+		List<WebPtElectronic> allGameList = ResourceConstant.PT_ELECTRONIC_LIST.get("all");
+		if(StringUtils.equals(eleFavourite.getClient(), "1")){
+			allGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_LIST;
+		}
+		
+		List<WebPtElectronic> supportGameList = ResourceConstant.PT_ELECTRONIC_LIST.get("support");
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebPtElectronic pt : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), pt.getEleGameCode())){
+					showGameList.add(pt);
+					break;
+				}
+			}
+			if(StringUtils.equals(eleFavourite.getClient(), "0")){
+				for (WebPtElectronic pt : supportGameList) {
+					if(StringUtils.equals(favourite.getGameCode(), pt.getEleGameCode())){
+						showGameList.add(pt);
+						break;
+					}
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebMgElectronic> getShowGameListForMg(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebMgElectronic> favourteEleList = new ArrayList<WebMgElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getMgFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebMgElectronic> showGameList = new ArrayList<WebMgElectronic>();
+		if(StringUtils.isNotBlank(gameName)){//搜索
+			List<WebMgElectronic> allGameList = new ArrayList<WebMgElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.MG_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.MG_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.MG_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebMgElectronic mg : allGameList) {
+				if (mg.getEleGameCnname().contains(gameName)) {
+					showGameList.add(mg);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {//热门
+				showGameList = ResourceConstant.MG_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorMgHotDesc());
+				for (WebMgElectronic mg : showGameList) {
+					mg.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {//新游戏
+				showGameList = ResourceConstant.MG_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorMgNewDesc());
+				for (WebMgElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {//收藏游戏
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MG_ELECTRONIC_LIST.get(key);//分类下所有游戏
+			}
+		}
+		
+		for (WebMgElectronic mg : showGameList) {
+			mg.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), mg.getRemark())){
+					mg.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebAgElectronic> getShowGameListForAg(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebAgElectronic> favourteEleList = new ArrayList<WebAgElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getAgFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebAgElectronic> showGameList = new ArrayList<WebAgElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebAgElectronic> allGameList = new ArrayList<WebAgElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.AG_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.AG_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.AG_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebAgElectronic ag : allGameList) {
+				if (ag.getEleGameCnname().contains(gameName)) {
+					showGameList.add(ag);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.AG_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorAgHotDesc());
+				for (WebAgElectronic ag : showGameList) {
+					ag.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.AG_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorAgNewDesc());
+				for (WebAgElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.AG_ELECTRONIC_LIST.get(key);
+			}
+		}
+		
+		for (WebAgElectronic ag : showGameList) {
+			ag.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), ag.getEleGameId())){
+					ag.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebPtElectronic> getShowGameListForPt(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebPtElectronic> favourteEleList = new ArrayList<WebPtElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getPtFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebPtElectronic> showGameList = new ArrayList<WebPtElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebPtElectronic> allGameList = new ArrayList<WebPtElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.PT_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.PT_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.PT_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebPtElectronic pt : allGameList) {
+				if (pt.getEleGameCnname().contains(gameName)) {
+					showGameList.add(pt);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.PT_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorPtHotDesc());
+				for (WebPtElectronic pt : showGameList) {
+					pt.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.PT_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorPtNewDesc());
+				for (WebPtElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.PT_ELECTRONIC_LIST.get(key);
+			}
+		}
+		for (WebPtElectronic pt : showGameList) {
+			pt.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), pt.getEleGameCode())){
+					pt.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebTtgElectronic> getShowGameListForTtg(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebTtgElectronic> favourteEleList = new ArrayList<WebTtgElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getTtgFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebTtgElectronic> showGameList = new ArrayList<WebTtgElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebTtgElectronic> allGameList = new ArrayList<WebTtgElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.TTG_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.TTG_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.TTG_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebTtgElectronic ttg : allGameList) {
+				if (ttg.getEleGameCnname().contains(gameName)) {
+					showGameList.add(ttg);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.TTG_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorTtgHotDesc());
+				for (WebTtgElectronic ttg : showGameList) {
+					ttg.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.TTG_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorTtgNewDesc());
+				for (WebTtgElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.TTG_ELECTRONIC_LIST.get(key);
+			}
+		}
+		
+		for (WebTtgElectronic ttg : showGameList) {
+			ttg.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), ttg.getEleGameId())){
+					ttg.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebOsElectronic> getShowGameListForOs(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebOsElectronic> favourteEleList = new ArrayList<WebOsElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getOsFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebOsElectronic> showGameList = new ArrayList<WebOsElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebOsElectronic> allGameList = new ArrayList<WebOsElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.OS_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.OS_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.OS_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebOsElectronic os : allGameList) {
+				if (os.getEleGameCnname().contains(gameName)) {
+					showGameList.add(os);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.OS_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorOsHotDesc());
+				for (WebOsElectronic os : showGameList) {
+					os.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.OS_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorOsNewDesc());
+				for (WebOsElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.OS_ELECTRONIC_LIST.get(key);
+			}
+		}
+		
+		for (WebOsElectronic os : showGameList) {
+			os.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), os.getEleGameId())){
+					os.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebNewNtElectronic> getShowGameListForNt(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebNewNtElectronic> favourteEleList = new ArrayList<WebNewNtElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getNtFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebNewNtElectronic> showGameList = new ArrayList<WebNewNtElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebNewNtElectronic> allGameList = new ArrayList<WebNewNtElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.NEWNT_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.NEWNT_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.NEWNT_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebNewNtElectronic nt : allGameList) {
+				if (nt.getEleGameCnname().contains(gameName)) {
+					showGameList.add(nt);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.NEWNT_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorNewNtHotDesc());
+				for (WebNewNtElectronic nt : showGameList) {
+					nt.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.NEWNT_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorNewNtNewDesc());
+				for (WebNewNtElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.NEWNT_ELECTRONIC_LIST.get(key);
+			}
+		}
+		
+		for (WebNewNtElectronic nt : showGameList) {
+			nt.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), nt.getEleGameCode())){
+					nt.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<WebGdElectronic> getShowGameListForGd(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebGdElectronic> favourteEleList = new ArrayList<WebGdElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getGdFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebGdElectronic> showGameList = new ArrayList<WebGdElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebGdElectronic> allGameList = new ArrayList<WebGdElectronic>();
+			/*if(StringUtils.equals(ResourceConstant.FAVOURITE, gameType)){//收藏游戏搜索
+				allGameList = favourteEleList;
+			}else if(StringUtils.equals(ResourceConstant.HOT, gameType)){
+				allGameList = ResourceConstant.GD_ELECTRONIC_HOT;
+			}else if(StringUtils.equals(ResourceConstant.NEW, gameType)){
+				allGameList = ResourceConstant.GD_ELECTRONIC_NEW;
+			}else{
+			}*/
+			allGameList = ResourceConstant.GD_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebGdElectronic gd : allGameList) {
+				if (gd.getEleGameCnname().contains(gameName)) {
+					showGameList.add(gd);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.GD_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorGdHotDesc());
+				for (WebGdElectronic gd : showGameList) {
+					gd.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.GD_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorGdNewDesc());
+				for (WebGdElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.GD_ELECTRONIC_LIST.get(key);
+			}
+		}
+		for (WebGdElectronic gd : showGameList) {
+			gd.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), gd.getEleGameId())){
+					gd.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+
+	public List<WebBbinElectronic> getBbinFavourteEleList( List<TWebUserEleFavourite> favourteList,TWebUserEleFavourite eleFavourite) {
+		List<WebBbinElectronic> showGameList = new ArrayList<WebBbinElectronic>();
+		List<WebBbinElectronic> allGameList = ResourceConstant.BBIN_ELECTRONIC_LIST.get("all");
+		for (TWebUserEleFavourite favourite : favourteList) {
+			for (WebBbinElectronic bbin : allGameList) {
+				if(StringUtils.equals(favourite.getGameCode(), bbin.getEleGameId())){
+					showGameList.add(bbin);
+					break;
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	public List<WebBbinElectronic> getShowGameListForBbin(String key, String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebBbinElectronic> favourteEleList = new ArrayList<WebBbinElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getBbinFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebBbinElectronic> showGameList = new ArrayList<WebBbinElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebBbinElectronic> allGameList = new ArrayList<WebBbinElectronic>();
+			allGameList = ResourceConstant.BBIN_ELECTRONIC_LIST.get("all");//分类游戏搜索
+			for (WebBbinElectronic gd : allGameList) {
+				if (gd.getEleGameCnname().contains(gameName)) {
+					showGameList.add(gd);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.BBIN_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorBbinHotDesc());
+				for (WebBbinElectronic bbin : showGameList) {
+					bbin.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.BBIN_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorBbinNewDesc());
+				for (WebBbinElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.BBIN_ELECTRONIC_LIST.get(key);
+			}
+		}
+		for (WebBbinElectronic bbin : showGameList) {
+			bbin.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), bbin.getEleGameId())){
+					bbin.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<?> getShowGameListForMg(String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebMgElectronic> favourteEleList = new ArrayList<WebMgElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getMgFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebMgElectronic> showGameList = new ArrayList<WebMgElectronic>();
+		if(StringUtils.isNotBlank(gameName)){//搜索
+			List<WebMgElectronic> allGameList = new ArrayList<WebMgElectronic>();
+			allGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_LIST;//分类游戏搜索
+			for (WebMgElectronic mg : allGameList) {
+				if (mg.getEleGameCnname().contains(gameName)) {
+					showGameList.add(mg);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {//热门
+				showGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorMgHotDesc());
+				for (WebMgElectronic mg : showGameList) {
+					mg.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {//新游戏
+				showGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorMgNewDesc());
+				for (WebMgElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {//收藏游戏
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MOBILE_MG_ELECTRONIC_LIST;//分类下所有游戏
+			}
+		}
+		
+		for (WebMgElectronic mg : showGameList) {
+			mg.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), mg.getRemark())){
+					mg.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<?> getShowGameListForPt(String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebPtElectronic> favourteEleList = new ArrayList<WebPtElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getPtFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebPtElectronic> showGameList = new ArrayList<WebPtElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebPtElectronic> allGameList = new ArrayList<WebPtElectronic>();
+			allGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_LIST;//分类游戏搜索
+			for (WebPtElectronic pt : allGameList) {
+				if (pt.getEleGameCnname().contains(gameName)) {
+					showGameList.add(pt);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorPtHotDesc());
+				for (WebPtElectronic pt : showGameList) {
+					pt.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorPtNewDesc());
+				for (WebPtElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MOBILE_PT_ELECTRONIC_LIST;
+			}
+		}
+		for (WebPtElectronic pt : showGameList) {
+			pt.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), pt.getEleGameCode())){
+					pt.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<?> getShowGameListForTtg(String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebTtgElectronic> favourteEleList = new ArrayList<WebTtgElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getTtgFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebTtgElectronic> showGameList = new ArrayList<WebTtgElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebTtgElectronic> allGameList = new ArrayList<WebTtgElectronic>();
+			allGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_LIST;//分类游戏搜索
+			for (WebTtgElectronic ttg : allGameList) {
+				if (ttg.getEleGameCnname().contains(gameName)) {
+					showGameList.add(ttg);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorTtgHotDesc());
+				for (WebTtgElectronic ttg : showGameList) {
+					ttg.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorTtgNewDesc());
+				for (WebTtgElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MOBILE_TTG_ELECTRONIC_LIST;
+			}
+		}
+		
+		for (WebTtgElectronic ttg : showGameList) {
+			ttg.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), ttg.getEleGameId())){
+					ttg.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<?> getShowGameListForOs(String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebOsElectronic> favourteEleList = new ArrayList<WebOsElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getOsFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebOsElectronic> showGameList = new ArrayList<WebOsElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebOsElectronic> allGameList = new ArrayList<WebOsElectronic>();
+			allGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_LIST;//分类游戏搜索
+			for (WebOsElectronic os : allGameList) {
+				if (os.getEleGameCnname().contains(gameName)) {
+					showGameList.add(os);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorOsHotDesc());
+				for (WebOsElectronic os : showGameList) {
+					os.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorOsNewDesc());
+				for (WebOsElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MOBILE_OS_ELECTRONIC_LIST;
+			}
+		}
+		
+		for (WebOsElectronic os : showGameList) {
+			os.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), os.getEleGameId())){
+					os.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+
+	
+	public List<?> getShowGameListForNt(String gameType, String gameName, TWebUserEleFavourite eleFavourite) {
+		List<TWebUserEleFavourite> favourite = new ArrayList<TWebUserEleFavourite>();
+		List<WebNewNtElectronic> favourteEleList = new ArrayList<WebNewNtElectronic>();
+		if(null != eleFavourite){
+			favourite = getFavouriteByUser(eleFavourite);//用户收藏的游戏代码
+			favourteEleList = getNtFavourteEleList(favourite,eleFavourite);//用户收藏的游戏
+		}
+		
+		List<WebNewNtElectronic> showGameList = new ArrayList<WebNewNtElectronic>();
+		if(StringUtils.isNotBlank(gameName)){
+			List<WebNewNtElectronic> allGameList = new ArrayList<WebNewNtElectronic>();
+			allGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_LIST;//分类游戏搜索
+			for (WebNewNtElectronic nt : allGameList) {
+				if (nt.getEleGameCnname().contains(gameName)) {
+					showGameList.add(nt);
+				}
+			}
+		}else{
+			if (StringUtils.equals(ResourceConstant.HOT, gameType)) {
+				showGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_HOT;
+				Collections.sort(showGameList, new ComparatorNewNtHotDesc());
+				for (WebNewNtElectronic nt : showGameList) {
+					nt.setEleHotNum(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.NEW, gameType)) {
+				showGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_NEW;
+				Collections.sort(showGameList, new ComparatorNewNtNewDesc());
+				for (WebNewNtElectronic ele : showGameList) {
+					ele.setEleIsNew(1);
+				}
+			} else if (StringUtils.equals(ResourceConstant.FAVOURITE, gameType)) {
+				showGameList = favourteEleList;
+			} else {
+				showGameList = ResourceConstant.MOBILE_NEWNT_ELECTRONIC_LIST;
+			}
+		}
+		
+		for (WebNewNtElectronic nt : showGameList) {
+			nt.setIsFavourite(0);
+			for (TWebUserEleFavourite ele : favourite) {
+				if(StringUtils.equals(ele.getGameCode(), nt.getEleGameCode())){
+					nt.setIsFavourite(1);//设置为已收藏
+				}
+			}
+		}
+		return showGameList;
+	}
+}

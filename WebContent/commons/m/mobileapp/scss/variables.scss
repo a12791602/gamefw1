@@ -1,0 +1,16 @@
+$red: #bb1d1e;
+$iphone5_width: 320px;
+$slot_img_min_height: 137px;
+
+@mixin clearfix {
+  *zoom: 1;
+
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}

@@ -1,0 +1,44 @@
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+import TopBanner from '../components/TopBanner';
+import HeaderNav from '../components/HeaderNav';
+import ImageSlider from '../components/ImageSlider';
+import Messages from '../components/Messages';
+import MoneyNav from '../components/MoneyNav';
+import AboutNav from '../components/aboutNav';
+import GameNavOne from '../components/GameNavOne';
+import GameNavTwo from '../components/GameNavTwo';
+import Footer from '../components/Footer';
+
+
+class HomeContainer extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.images = sliders;
+  }
+
+  render() {
+    return (
+      <div className="page home-page">
+        <TopBanner {...this.props} />
+        <HeaderNav />
+        <ImageSlider images={this.images}/>
+        <Messages {...this.props}/>
+        <MoneyNav {...this.props}/>
+        <AboutNav />
+        <GameNavOne />
+        <Footer  />
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  const {user, messages} = state;
+  return {user, messages};
+}
+
+export default connect(mapStateToProps)(HomeContainer);

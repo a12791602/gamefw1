@@ -1,0 +1,199 @@
+@import "variables.scss";
+@import "reset.scss";
+@import "slick.scss";
+@import "home.scss";
+@import "sport.scss";
+@import "login.scss";
+@import "register";
+@import "slot.scss";
+@import "footer.scss";
+@import "live.scss";
+@import "bbin.scss";
+
+@mixin font-reset {
+  font-family: "Microsoft YaHei" !important;
+  font-size: 11.5px;
+  color: #000;
+}
+
+html,body {
+  @include font-reset;
+  
+  @media all and (max-width: $iphone5_width) {
+    font-size: 12px;
+  }
+}
+.page.home-page {
+    background: #18191b;
+}
+.clearfix {
+  @include clearfix;
+}
+
+
+.top-banner-banner {
+  background-color: #000;
+  height: 5rem;
+  position: relative;
+
+  .logo  {
+
+    width: 45%;
+    position: absolute;
+    left: 0.9rem;
+    height: 100%;
+
+    .helper {
+      height: 100%;
+      vertical-align: middle;
+      display: inline-block;
+    }
+
+    img {
+      width: 80%;
+      vertical-align: middle;
+      height: auto;
+      position: static;
+      max-width: 282px;
+    }
+
+  }
+    
+
+  .tb-links{
+    margin-right: 0.9rem;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    margin-top: -1rem;
+
+    li {
+      height: 100%;
+      float: none;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 1rem;
+    }
+  }
+}
+
+.icon {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  text-indent: 1000em;
+  overflow: hidden;
+  background-repeat:no-repeat;
+  background-size: cover;
+
+  &.icon-login {
+    background: #fff;
+  }
+
+  &.icon-register {
+    background: #fff;
+  }
+
+  &.icon-home {
+    background-image: url(../images/home-icon.png);
+  }
+
+  &.icon-logout {
+    background-image: url(../images/logout-icon.png);
+  }
+}
+
+.header-links {
+  background: linear-gradient(#424242, #1f1f1f);
+  ul {
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+  li {
+    padding: 0rem 1%;
+    width: 20%;
+    float: left;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  a {
+    color: #fefefe;
+    width: 100%;
+    padding: 1rem 0px;
+    display: block;
+
+    &.active {
+      color: #ffd32b;
+    }
+  }
+}
+
+.home-slider {
+  .slick-slide 
+    img {
+      width: 100%;
+    }
+}
+
+.message-marquee {
+  background: #2b2b2b;    
+  padding: 0.5rem 8% .5rem 11%;
+  color: #cecece;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  p {
+    width: 1000em;
+  }
+
+  &:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 3%;
+    top: 50%;
+    margin-top: -0.9rem;
+    width: 1.5rem;
+    height: 1.8rem;
+    background: url(../images/message-icon.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+@mixin login-register-link-common {
+  border-radius: 10px;
+  border: 0.2rem solid #d6d6d6;
+  padding: 0.3rem 1rem;
+  color: #d7d7d7;
+  float: left;
+}
+
+.link {
+  display: inline-block;
+  text-decoration: none;
+
+  &.link-register {
+    @include login-register-link-common;
+  }
+
+  &.link-login {
+    @include login-register-link-common;
+  }
+  &.icon-member {
+    @include login-register-link-common;
+  }
+}
+
+.red {
+  color: $red;
+}
+
+.loader-msg {
+  text-align: center;
+  color: #fff;
+  padding: 1rem 0px;
+}

@@ -1,0 +1,20 @@
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+
+import BaseComponent from '../components/BaseComponent';
+
+class AppContainer extends BaseComponent {
+  render() {
+    return (
+      <div className="app-container">
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+function mapStateForProps(state) {
+  return {};
+}
+
+export default connect(mapStateForProps)(AppContainer);
